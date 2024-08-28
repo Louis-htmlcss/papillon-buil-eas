@@ -18,6 +18,8 @@ jobs:
 
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          repository: PapillonApp/Papillon
 
       - name: Setup Node
         uses: actions/setup-node@v4
