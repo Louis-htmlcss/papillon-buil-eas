@@ -16,10 +16,11 @@ jobs:
             exit 1
           fi
 
-      - name: Checkout repository
+      - name: Checkout Papillon repository
         uses: actions/checkout@v4
         with:
           repository: PapillonApp/Papillon
+          path: papillon
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -35,8 +36,10 @@ jobs:
 
       - name: Install dependencies
         run: yarn install
+        working-directory: papillon
 
       - name: Create preview
         uses: expo/expo-github-action/preview@v8
         with:
           command: eas update --auto
+          working-directory: papillon
