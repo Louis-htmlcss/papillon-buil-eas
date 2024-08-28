@@ -1,10 +1,10 @@
-name: update
+name: Build and Update
 on:
   workflow_dispatch:
 
 jobs:
   update:
-    name: EAS Update
+    name: EAS Update and Build
     runs-on: ubuntu-latest
     steps:
       - name: Check for EXPO_TOKEN
@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.x
-          cache: yarn
+          cache: npm
 
       - name: Setup EAS
         uses: expo/expo-github-action@v8
@@ -30,16 +30,16 @@ jobs:
           token: ${{ secrets.EXPO_TOKEN }}
 
       - name: Install dependencies
-        run: yarn install
+        run: npm ci
 
       - name: Publish update
         run: eas update --auto
 
       - name: Build APK
-        run: eas build -p android --profile preview
+        run: eas build --platform android --profile preview --non-interactive
 
       - name: Upload APK artifact
         uses: actions/upload-artifact@v3
         with:
-          name: app-release
+          name: papillon-preview
           path: build/*.apk
